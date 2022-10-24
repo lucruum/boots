@@ -26,19 +26,19 @@ def kill(task):
 
 async def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("observables", type=pathlib.Path().glob, nargs="+")
+    parser.add_argument("observables", nargs="+")
     parser.add_argument("command")
     parser.add_argument("-n", "--interval", type=float, default=1)
     args = parser.parse_args()
 
-    observables = list(itertools.chain.from_iterable(args.observables))
+    observables = lambda: itertools.chain.from_iterable(map(pathlib.Path().glob, args.observables))
     command = args.command
     interval = args.interval
 
     last_mtimes = []
     task = None
     while True:
-        if (mtimes := [it.stat().st_mtime for it in observables]) != last_mtimes:
+        if (mtimes := [it.stat().st_mtime for it in observables()]) != last_mtimes:
             kill(task)
             task = asyncio.ensure_future(asyncio.create_subprocess_shell(command))
             last_mtimes = mtimes
