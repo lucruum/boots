@@ -49,16 +49,6 @@ def render(x):
     return "\n".join("".join(it) for it in art)
 
 
-if len(sys.argv) == 2 and sys.argv[1] == "rollback":
-    subprocess.run(
-        "git reset --hard &"
-        "git clean --force -dx &"
-        "git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' | xargs git checkout",
-        shell=True,
-    )
-    exit()
-
-
 if len(sys.argv) == 1:
     if subprocess.check_output("git status --porcelain", shell=True):
         n = int(subprocess.check_output("git rev-list HEAD | wc --lines", shell=True)) + 2
