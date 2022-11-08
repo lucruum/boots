@@ -1,4 +1,3 @@
-SITE_PACKAGES_PATH=`python -m site --user-site`
+PYTHON_SITE_PACKAGES_PATH=`python -m site --user-site`
 
-cp "evol.py" "$SITE_PACKAGES_PATH" --force
-cp "notify.py" "$SITE_PACKAGES_PATH" --force
+find -name "*.py" -exec cp {} "$PYTHON_SITE_PACKAGES_PATH" --force \;
