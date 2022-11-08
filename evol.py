@@ -50,10 +50,7 @@ def render(x):
 
 
 if len(sys.argv) == 1:
-    if subprocess.check_output("git status --porcelain", shell=True):
-        n = int(subprocess.check_output("git rev-list HEAD | wc --lines", shell=True)) + 2
-    else:
-        n = 2
+    n = int(subprocess.check_output("git rev-list HEAD | wc --lines", shell=True)) + 1
 else:
     n = int(sys.argv[1])
 
@@ -61,4 +58,4 @@ subprocess.run("cls & git rollback", shell=True)
 subprocess.run(f"git rev-list HEAD --reverse | sed '{n}q;d' | xargs git checkout", shell=True)
 subprocess.run("cls", shell=True)
 print(render(n))
-subprocess.run("git show --stat & git kill & code . --reuse-window", shell=True)
+subprocess.run("git show --stat & code . --reuse-window", shell=True)
