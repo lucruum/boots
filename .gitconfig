@@ -1,0 +1,55 @@
+[alias]
+    b = branch
+
+    c = checkout
+
+    copy = cherry-pick
+
+    cane = commit --all --amend --no-edit
+    rename = commit --amend
+    wip = commit --all --message=[WIP]
+
+    d = diff --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
+
+    l = log --decorate --graph --oneline -25
+
+    p = push
+    pane = !git cane && git push --force
+
+    del = reset HEAD~1 --hard
+    kill = !git reset HEAD~1 --soft && git reset
+    rollback = !git reset --hard && \
+                git clean --force -dx && \
+                git checkout `git symbolic-ref refs/remotes/origin/HEAD | sed "s@^refs/remotes/origin/@@"`
+
+    s = show --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
+
+    comma = stash push --message
+    dot = stash show --patch
+    drop = stash drop
+    dup = stash apply
+    hide = stash push
+    reveal = stash pop
+    shelve = !. \"`git --exec-path`/git-sh-setup\" && \
+             require_clean_work_tree shelve && \
+             m=`git log --format=%B -1` && \
+             git reset HEAD~1 --soft && \
+             git stash push --message=\"$m\"
+    swap = ![[ -n "`git status --porcelain`" ]] && \
+            (git add --all --force && git comma [BUFFER]) || \
+            (git reveal && git reset)
+    unshelve = !. \"`git --exec-path`/git-sh-setup\" && \
+               require_clean_work_tree unshelve && \
+               m=`git stash list --format=%B -1 | sed '1 s/On [^:]+: //' --regexp-extended` && \
+               git stash pop && \
+               git commit --all --message=\"$m\"
+
+    st = status
+
+[core]
+    editor = code --wait
+    pager =
+
+[user]
+    email = naoh432@mail.ru
+    name = lucruum
