@@ -6,7 +6,6 @@
     copy = cherry-pick
 
     cane = commit --all --amend --no-edit
-    rename = commit --amend
     wip = commit --all --message=[WIP]
 
     d = diff --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
@@ -16,6 +15,9 @@
 
     p = push
     pane = !git cane && git push --force
+
+    edit = "!f () { git -c sequence.editor=\"sed '1 s/pick/edit/' --in-place\" rebase ${1:-HEAD}~1 --interactive; }; f"
+    reword = "!f () { git -c sequence.editor=\"sed '1 s/pick/reword/' --in-place\" rebase ${1:-HEAD}~1 --interactive; }; f"
 
     del = reset HEAD~1 --hard
     kill = !git reset HEAD~1 --soft && git reset
