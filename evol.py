@@ -50,7 +50,10 @@ def render(x):
 
 
 if len(sys.argv) == 1:
-    n = int(subprocess.check_output("git rev-list HEAD | wc --lines", shell=True)) + 1
+    if subprocess.run("git symbolic-ref HEAD --quiet", stdout=subprocess.DEVNULL).returncode == 0:
+        n = 1
+    else:
+        n = int(subprocess.check_output("git rev-list HEAD | wc --lines", shell=True)) + 1
 else:
     n = int(sys.argv[1])
 
