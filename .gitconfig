@@ -24,7 +24,8 @@
     rollback = !git rebase --abort";" \
                 git clean --force -dx && \
                 git reset --hard && \
-                git checkout `git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`
+                git checkout `git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'` && \
+                git reset `git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/@@'` --hard
 
     s = show --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
     ss = show --format= --stat
