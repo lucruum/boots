@@ -59,6 +59,11 @@ if len(sys.argv) == 1:
     if subprocess.run("git symbolic-ref HEAD --quiet", stdout=subprocess.DEVNULL).returncode == 0:
         n = 1
     else:
+        is_headed_with_merge_commit = (
+            int(subprocess.check_output("git rev-list HEAD --parents -1 | wc --word", shell=True, text=True)) > 2
+        )
+        if not is_headed_with_merge_commit:
+            subprocess.run("git reset --hard & git del", shell=True)
         head_hash = subprocess.check_output("git rev-parse HEAD", shell=True, text=True).strip()
         n = (
             int(
@@ -77,3 +82,4 @@ subprocess.run(f"git rev-list {default_branch} --reverse | sed '{n}q;d' | xargs 
 subprocess.run("cls", shell=True)
 print(render(n))
 subprocess.run("git show --stat & code . --reuse-window", shell=True)
+subprocess.run("git revert HEAD --no-edit & git revert HEAD --no-commit & git reset", shell=True)
