@@ -9,6 +9,7 @@
     wip = commit --all --message=[WIP]
 
     d = diff --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
+    dc = diff --ignore-all-space --word-diff-regex=. --word-diff=color
     dd = diff --format= --stat
 
     l = log --decorate --graph --oneline -25
@@ -28,6 +29,7 @@
                 git reset `git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/@@'` --hard
 
     s = show --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
+    sc = show --ignore-all-space --word-diff-regex=. --word-diff=color
     ss = show --format= --stat
 
     comma = stash push --message
