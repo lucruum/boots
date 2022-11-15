@@ -4,4 +4,4 @@ PYTHON_SITE_PACKAGES_PATH=`python -m site --user-site`
 mkdir "$PYTHON_SITE_PACKAGES_PATH" --parents
 
 cp ".gitconfig" "$GIT_GLOBAL_CONFIG_PATH" --force
-find -name "*.py" -exec cp {} "$PYTHON_SITE_PACKAGES_PATH" --force \;
+/bin/find -name "*.py" -exec cp {} "$PYTHON_SITE_PACKAGES_PATH" --force \;
