@@ -57,6 +57,7 @@
 [core]
     editor = code --wait
     pager =
+    quotepath = false
 
 [user]
     email = naoh432@mail.ru
