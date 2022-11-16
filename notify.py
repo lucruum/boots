@@ -13,8 +13,11 @@ def is_running(task):
     status = subprocess.run(
         f'tasklist /fi "pid eq {task.result().pid}" /fo csv /nh', encoding="oem", stdout=subprocess.PIPE
     ).stdout
-    _, pid, *_ = next(csv.reader([status]))
-    return pid == str(task.result().pid)
+    try:
+        _, pid, *_ = next(csv.reader([status]))
+        return pid == str(task.result().pid)
+    except ValueError:
+        return False
 
 
 def kill(task):
