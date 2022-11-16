@@ -17,8 +17,16 @@
     p = push
     pane = !git cane && git push --force
 
-    edit = "!f () { git -c sequence.editor=\"sed '1 s/pick/edit/' --in-place\" rebase ${1:-HEAD}~1 --interactive; }; f"
-    reword = "!f () { git -c sequence.editor=\"sed '1 s/pick/reword/' --in-place\" rebase ${1:-HEAD}~1 --interactive; }; f"
+    edit = "!f () { \
+        [[ `git rev-list ${1:-HEAD} --parents -1 | wc --words` == 1 ]] && \
+        git -c sequence.editor=\"sed '1 s/pick/edit/' --in-place\" rebase --interactive --root || \
+        git -c sequence.editor=\"sed '1 s/pick/edit/' --in-place\" rebase ${1:-HEAD}~1 --interactive; \
+    }; f"
+    reword = "!f () { \
+        [[ `git rev-list ${1:-HEAD} --parents -1 | wc --words` == 1 ]] && \
+        git -c sequence.editor=\"sed '1 s/pick/reword/' --in-place\" rebase --interactive --root || \
+        git -c sequence.editor=\"sed '1 s/pick/reword/' --in-place\" rebase ${1:-HEAD}~1 --interactive; \
+    }; f"
 
     del = reset HEAD~1 --hard
     kill = !git reset HEAD~1 --soft && git reset
