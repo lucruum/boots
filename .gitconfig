@@ -30,7 +30,7 @@
 
     del = reset HEAD~1 --hard
     kill = !git reset HEAD~1 --soft && git reset
-    rollback = !git rebase --abort";" \
+    rollback =  !git rebase --abort";" \
                 git clean --force -dx && \
                 git reset --hard && \
                 git checkout `git remote show origin | sed '/HEAD branch/s/.*: //p' --quiet` && \
@@ -46,19 +46,19 @@
     dup = stash apply
     hide = stash push
     reveal = stash pop
-    shelve = !. \"`git --exec-path`/git-sh-setup\" && \
-             require_clean_work_tree shelve && \
-             m=`git log --format=%B -1` && \
-             git reset HEAD~1 --soft && \
-             git stash push --message=\"$m\"
-    swap = ![[ -n "`git status --porcelain`" ]] && \
+    shelve =    !. \"`git --exec-path`/git-sh-setup\" && \
+                require_clean_work_tree shelve && \
+                m=`git log --format=%B -1` && \
+                git reset HEAD~1 --soft && \
+                git stash push --message=\"$m\"
+    swap =  ![[ -n "`git status --porcelain`" ]] && \
             (git add --all --force && git comma [BUFFER]) || \
             (git reveal && git reset)
-    unshelve = !. \"`git --exec-path`/git-sh-setup\" && \
-               require_clean_work_tree unshelve && \
-               m=`git stash list --format=%B -1 | sed '1 s/On [^:]+: //' --regexp-extended` && \
-               git stash pop && \
-               git commit --all --message=\"$m\"
+    unshelve =  !. \"`git --exec-path`/git-sh-setup\" && \
+                require_clean_work_tree unshelve && \
+                m=`git stash list --format=%B -1 | sed '1 s/On [^:]+: //' --regexp-extended` && \
+                git stash pop && \
+                git commit --all --message=\"$m\"
 
     st = status
 
