@@ -5,7 +5,14 @@
 
     copy = cherry-pick
 
-    cl =    !git clean --dry-run --force -dx && \
+    cl =    !git clean --dry-run --force -d && \
+            read -p 'Remove [Y/n]? ' && \
+            case ${REPLY:-yes} in  \
+                y | yes ) git clean --force -d";;" \
+                n | no ) ";;" \
+                * ) echo \"I'll take that as a 'no'\" ";;" \
+            esac
+    clx =   !git clean --dry-run --force -dx && \
             read -p 'Remove [Y/n]? ' && \
             case ${REPLY:-yes} in  \
                 y | yes ) git clean --force -dx";;" \
