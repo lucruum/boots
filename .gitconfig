@@ -55,7 +55,6 @@
     sc = show --ignore-all-space --word-diff-regex=. --word-diff=color
     ss = show --format= --stat
 
-    comma = stash push --message
     dot = stash show --patch
     drop = stash drop
     dup = stash apply
@@ -66,9 +65,6 @@
                 m=`git log --format=%B -1` && \
                 git reset HEAD~1 --soft && \
                 git stash push --message=\"$m\"
-    swap =  ![[ -n "`git status --porcelain`" ]] && \
-            (git add --all --force && git comma [BUFFER]) || \
-            (git reveal && git reset)
     unshelve =  !. \"`git --exec-path`/git-sh-setup\" && \
                 require_clean_work_tree unshelve && \
                 m=`git stash list --format=%B -1 | sed '1 s/On [^:]+: //' --regexp-extended` && \
