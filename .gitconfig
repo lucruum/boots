@@ -15,8 +15,8 @@
     clx =   !git clean --dry-run --force -dx && \
             read -p 'Remove [Y/n]? ' && \
             case ${REPLY:-yes} in  \
-                y | yes ) git clean --force -dx";;" \
-                n | no ) ";;" \
+                y | Y | yes ) git clean --force -dx";;" \
+                n | N | no ) ";;" \
                 * ) echo \"I'll take that as a 'no'\" ";;" \
             esac
 
