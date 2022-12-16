@@ -28,6 +28,23 @@
     d = diff --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
     dc = diff --ignore-all-space --word-diff-regex=. --word-diff=color
     dd = diff --format= --stat
+    dv = "!f () { \
+        if [[ $# > 2 ]]; then \
+            echo 'usage: git dv [<commit>] [<commit>]'; \
+        else \
+            code --new-window; \
+            for it in `git diff $@ --name-only`; do \
+                old=`mktemp --suffix="$it"`; \
+                new=`mktemp --suffix="$it"`; \
+                case $# in  \
+                    0 ) git show HEAD:"$it" > "$old"; cat "$it" > "$new";; \
+                    1 ) git show "$1":"$it" > "$old"; cat "$it" > "$new";; \
+                    2 ) git show "$1":"$it" > "$old"; git show "$2":"$it" > "$new";; \
+                esac; \
+                code "$old" "$new" --diff; \
+            done; \
+        fi; \
+    }; f"
 
     l = log --decorate --graph --oneline -25
 
@@ -56,6 +73,16 @@
     s = show --ignore-all-space --word-diff-regex=[[:alnum:]_]+|[[:punct:]] --word-diff=color
     sc = show --ignore-all-space --word-diff-regex=. --word-diff=color
     ss = show --format= --stat
+    sv = "!f () { \
+        if [[ $# > 1 ]]; then \
+            echo 'usage: git sv [<commit>]'; \
+        else \
+            case $# in  \
+                0 ) git dv HEAD~1 HEAD;; \
+                1 ) git dv "$1"~1 "$1";; \
+            esac; \
+        fi; \
+    }; f"
 
     dot = stash show --patch
     drop = stash drop
