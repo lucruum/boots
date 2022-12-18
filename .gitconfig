@@ -5,22 +5,26 @@
 
     copy = cherry-pick
 
-    cl =    ![[ ! -z `git ls-files --other` ]] && \
-            git clean --dry-run --force -d && \
-            read -p 'Remove [Y/n]? ' && \
-            case ${REPLY:-yes} in  \
-                y | yes ) git clean --force -d";;" \
-                n | no ) ";;" \
-                * ) echo \"I'll take that as a 'no'\" ";;" \
-            esac
-    clx =   ![[ ! -z `git ls-files --other` ]] && \
-            git clean --dry-run --force -dx && \
-            read -p 'Remove [Y/n]? ' && \
-            case ${REPLY:-yes} in  \
-                y | Y | yes ) git clean --force -dx";;" \
-                n | N | no ) ";;" \
-                * ) echo \"I'll take that as a 'no'\" ";;" \
-            esac
+    cl = "!f () { \
+        [[ ! -z `git ls-files --other` ]] && \
+        git clean --dry-run --force -d $@ && \
+        read -p 'Remove [Y/n]? ' && \
+        case ${REPLY:-yes} in  \
+            y | yes ) git clean --force -d $@;; \
+            n | no );; \
+            * ) echo \"I'll take that as a 'no'\";; \
+        esac; \
+    }; f"
+    clx = "!f () { \
+        [[ ! -z `git ls-files --other` ]] && \
+        git clean --dry-run --force -dx $@ && \
+        read -p 'Remove [Y/n]? ' && \
+        case ${REPLY:-yes} in  \
+            y | Y | yes ) git clean --force -dx $@;; \
+            n | N | no );; \
+            * ) echo \"I'll take that as a 'no'\";; \
+        esac; \
+    }; f"
 
     cane = commit --all --amend --no-edit
     wip = commit --all --message=[WIP]
@@ -64,7 +68,7 @@
         DARK_GRAY=`echo -e '\\033[38;2;80;80;80m'`; \
         WHITE=`echo -e '\\033[38;2;255;255;255m'`; \
         DARK_WHITE=`echo -e '\\033[38;2;160;160;160m'`; \
-        git log --color=always --decorate --graph --oneline -25 | \
+        git log --color=always --decorate --graph --oneline -25 $@ | \
         sed \" \
             s/(build\\(?)([^)]*)(\\)?):/$YELLOW\\1$RESET$LIGHT_YELLOW\\2$RESET$YELLOW\\3$RESET:/; \
             s/(chore\\(?)([^)]*)(\\)?):(.*)/$DARK_GRAY\\1$RESET$GRAY\\2$RESET$DARK_GRAY\\3$RESET:$DARK_GRAY\\4$RESET/; \
