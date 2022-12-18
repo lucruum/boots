@@ -46,7 +46,37 @@
         fi; \
     }; f"
 
-    l = log --decorate --graph --oneline -25
+    l = "!f () { \
+        RESET=`echo -e '\\033[0m'`; \
+        RED=`echo -e '\\033[38;2;255;0;0m'`; \
+        LIGHT_RED=`echo -e '\\033[38;2;255;153;153m'`; \
+        ORANGE=`echo -e '\\033[38;2;255;128;0m'`; \
+        LIGHT_ORANGE=`echo -e '\\033[38;2;255;204;153m'`; \
+        YELLOW=`echo -e '\\033[38;2;255;255;0m'`; \
+        LIGHT_YELLOW=`echo -e '\\033[38;2;255;255;153m'`; \
+        GREEN=`echo -e '\\033[38;2;0;255;0m'`; \
+        LIGHT_GREEN=`echo -e '\\033[38;2;153;255;153m'`; \
+        BLUE=`echo -e '\\033[38;2;0;0;255m'`; \
+        LIGHT_BLUE=`echo -e '\\033[38;2;153;153;255m'`; \
+        PINK=`echo -e '\\033[38;2;255;0;255m'`; \
+        LIGHT_PINK=`echo -e '\\033[38;2;255;153;255m'`; \
+        GRAY=`echo -e '\\033[38;2;128;128;128m'`; \
+        DARK_GRAY=`echo -e '\\033[38;2;80;80;80m'`; \
+        WHITE=`echo -e '\\033[38;2;255;255;255m'`; \
+        DARK_WHITE=`echo -e '\\033[38;2;160;160;160m'`; \
+        git log --color=always --decorate --graph --oneline -25 | \
+        sed \" \
+            s/(build\\(?)([^)]*)(\\)?):/$YELLOW\\1$RESET$LIGHT_YELLOW\\2$RESET$YELLOW\\3$RESET:/; \
+            s/(chore\\(?)([^)]*)(\\)?):(.*)/$DARK_GRAY\\1$RESET$GRAY\\2$RESET$DARK_GRAY\\3$RESET:$DARK_GRAY\\4$RESET/; \
+            s/(docs\\(?)([^)]*)(\\)?):/$WHITE\\1$RESET$DARK_WHITE\\2$RESET$WHITE\\3$RESET:/; \
+            s/(feat\\(?)([^)]*)(\\)?):/$GREEN\\1$RESET$LIGHT_GREEN\\2$RESET$GREEN\\3$RESET:/; \
+            s/(fix\\(?)([^)]*)(\\)?):/$RED\\1$RESET$LIGHT_RED\\2$RESET$RED\\3$RESET:/; \
+            s/(perf\\(?)([^)]*)(\\)?):/$BLUE\\1$RESET$LIGHT_BLUE\\2$RESET$BLUE\\3$RESET:/; \
+            s/(refactor\\(?)([^)]*)(\\)?):(.*)/$DARK_GRAY\\1$RESET$GRAY\\2$RESET$DARK_GRAY\\3$RESET:$DARK_GRAY\\4$RESET/; \
+            s/(style\\(?)([^)]*)(\\)?):/$PINK\\1$RESET$LIGHT_PINK\\2$RESET$PINK\\3$RESET:/; \
+            s/(test\\(?)([^)]*)(\\)?):/$ORANGE\\1$RESET$LIGHT_ORANGE\\2$RESET$ORANGE\\3$RESET:/; \
+        \" --regexp-extended; \
+    }; f"
 
     p = push
     pane = !git cane && git push --force
