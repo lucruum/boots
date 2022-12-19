@@ -81,6 +81,7 @@
             s/(test\\(?)([^)]*)(\\)?):/$ORANGE\\1$RESET$LIGHT_ORANGE\\2$RESET$ORANGE\\3$RESET:/; \
         \" --regexp-extended; \
     }; f"
+    la = l --all -1000000
 
     p = push
     pane = !git cane && git push --force
