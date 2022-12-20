@@ -6,7 +6,7 @@
     copy = cherry-pick
 
     cl = "!f () { \
-        [[ ! -z `git ls-files --other` ]] && \
+        [[ ! -z `git clean --dry-run --force -d $@` ]] && \
         git clean --dry-run --force -d $@ && \
         read -p 'Remove [Y/n]? ' && \
         case ${REPLY:-yes} in  \
@@ -16,7 +16,7 @@
         esac; \
     }; f"
     clx = "!f () { \
-        [[ ! -z `git ls-files --other` ]] && \
+        [[ ! -z `git clean --dry-run --force -dx $@` ]] && \
         git clean --dry-run --force -dx $@ && \
         read -p 'Remove [Y/n]? ' && \
         case ${REPLY:-yes} in  \
