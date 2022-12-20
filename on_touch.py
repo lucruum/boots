@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import csv
+import glob
 import itertools
 import pathlib
 import subprocess
@@ -34,7 +35,11 @@ async def main():
     parser.add_argument("-n", "--interval", type=float, default=1)
     args = parser.parse_args()
 
-    observables = lambda: itertools.chain.from_iterable(map(pathlib.Path().glob, args.observables))
+    def observables():
+        result = map(glob.glob, args.observables)
+        result = itertools.chain.from_iterable(result)
+        return map(pathlib.Path, result)
+
     command = args.command
     interval = args.interval
 
