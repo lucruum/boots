@@ -36,7 +36,7 @@ async def main():
     args = parser.parse_args()
 
     def observables():
-        result = map(glob.glob, args.observables)
+        result = map(glob.iglob, args.observables)
         result = itertools.chain.from_iterable(result)
         return map(pathlib.Path, result)
 
