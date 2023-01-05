@@ -98,6 +98,7 @@
     }; f"
 
     del = reset HEAD~1 --hard
+    ex = reset --hard
     kill = !git reset HEAD~1 --soft && git reset
     rollback =  !git rebase --abort";" \
                 git clean --force -dx && \
