@@ -1,5 +1,6 @@
 [alias]
     b = branch
+    save = !git branch save-`git branch --show-current`
 
     c = checkout
 
